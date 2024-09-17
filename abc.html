@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            #c{
+            border:solid 10px red;
+        }
+        </style>
+        
+    </head>
+    <body>
+        <canvas id="c" width="800px" height="500px"></canvas>
+    </body>
+    </script>
+    <script>
+        class Snow{
+            constructor(x,y,size,speed){
+                this.x=x;
+                this.y=y;
+                this.speed=speed;
+                this.size=size
+            }
+            draw(){
+                ctx.beginPath();
+                ctx.fillStyle='white';
+                ctx.arc(this.x,this.y,this.size,0,2*Math.PI)
+                ctx.fill();
+            }
+            update(){
+                this.y+=this.speed;
+                if(this.y>canvas.height){
+                    this.y=0;
+                }
+            }
+            deleteItself(){
+                snowList.splice(snowList.indexOf(this));
+            }
+        }
+        function getRandomNumber(max){
+            return Math.floor(Math.random()*max)
+        }
+        function drawSnow(amount){
+            
+        }
+        function spawnSnow(amount){
+            for(let i=0;i<amount;i++){
+                snowList.push(new Snow(getRandomNumber(canvas.width),getRandomNumber(canvas.height),getRandomNumber(5),0.5+getRandomNumber(1)))
+            }
+        }
+        canvas=document.querySelector('#c');
+        ctx=canvas.getContext('2d');
+        //draw background
+        
+        
+        var snowList=[]
+        spawnSnow(1000);
+        function update(){
+            ctx.beginPath();
+            ctx.fillStyle='black';
+            ctx.rect(0,0,canvas.width,canvas.height)
+            ctx.fill()
+            for(let i=0;i<snowList.length;i++){
+                snowList[i].update()
+                snowList[i].draw();
+            }
+            requestAnimationFrame(update)
+        }
+        requestAnimationFrame(update)
+        
+    </script>
+</html>
